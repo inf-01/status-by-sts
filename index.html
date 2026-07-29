@@ -333,117 +333,99 @@ tailwind.config = {
 
   .odometer{ font-family:'Orbitron', sans-serif; }
 
-  /* ============ HERO GAUGE CLUSTER (reemplaza el marco tipo cámara) ============ */
-  .hg-cluster{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap: 22px;
+  /* ============ BEFORE/AFTER SLIDER (reemplaza el cluster) ============ */
+  .ba-slider-container {
+    position: relative;
+    width: 440px;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,.6), 0 0 20px rgba(201,168,108,.1);
+    border: 1px solid rgba(255,255,255,0.06);
   }
-  .hg-gauge{
-    position:relative;
-    width: 190px; height:190px;
-    border-radius:50%;
-    flex-shrink:0;
-    background: radial-gradient(circle at 34% 30%, #202226, #101113 72%);
-    box-shadow:
-      12px 12px 26px rgba(0,0,0,.6),
-      -9px -9px 20px rgba(255,255,255,.035),
-      inset 0 0 0 1px rgba(255,255,255,.05);
+  .ba-slider-img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    overflow: hidden;
   }
-  .hg-gauge::before{
-    content:'';
-    position:absolute; inset:14px;
-    border-radius:50%;
-    background: radial-gradient(circle at 38% 34%, #17181b, #060607 78%);
-    box-shadow:
-      inset 8px 8px 18px rgba(0,0,0,.75),
-      inset -5px -5px 14px rgba(255,255,255,.03);
+  .ba-slider-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: center;
+    pointer-events: none;
   }
-  .hg-ticks{
-    position:absolute; inset:24px;
-    border-radius:50%;
-    background: repeating-conic-gradient(from -128deg, rgba(255,255,255,.4) 0deg 1deg, transparent 1deg 10.9deg);
-    -webkit-mask: radial-gradient(circle, transparent 63%, #000 64%, #000 70%, transparent 71%);
-            mask: radial-gradient(circle, transparent 63%, #000 64%, #000 70%, transparent 71%);
-    opacity:.5;
+  .ba-after {
+    width: 50%;
   }
-  .hg-redline{
-    position:absolute; inset:24px;
-    border-radius:50%;
-    background: conic-gradient(from -128deg, transparent 0deg 210deg, rgba(180,29,63,.7) 210deg 258deg, transparent 258deg 360deg);
-    -webkit-mask: radial-gradient(circle, transparent 63%, #000 64%, #000 70%, transparent 71%);
-            mask: radial-gradient(circle, transparent 63%, #000 64%, #000 70%, transparent 71%);
+  .ba-tint-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(2px) contrast(1.1);
+    pointer-events: none;
   }
-  .hg-numbers{ position:absolute; inset:0; width:100%; height:100%; }
-  .hg-numbers text{
-    font-family:'Orbitron', sans-serif;
-    font-size: 10.5px;
-    fill: var(--chrome);
-    opacity:.85;
-    text-anchor: middle;
-    dominant-baseline: middle;
+  .ba-label {
+    position: absolute;
+    bottom: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+    white-space: nowrap;
   }
-  .hg-needle{
-    position:absolute;
-    left:50%; bottom:50%;
-    width:3px; height:33%;
-    background: linear-gradient(to top, var(--alcred), var(--chrome));
-    border-radius: 3px 3px 0 0;
-    transform-origin: bottom center;
-    filter: drop-shadow(0 0 5px rgba(180,29,63,.6));
+  .ba-label-before { right: 12px; }
+  .ba-label-after { left: 12px; color: #C9A86C; border: 1px solid rgba(201,168,108,.4); }
+  
+  .ba-slider {
+    position: absolute;
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%; height: 100%;
+    background: transparent;
+    outline: none;
+    margin: 0;
+    cursor: ew-resize;
+    z-index: 20;
   }
-  .hg-rpm .hg-needle{
-    transform: translateX(-50%) rotate(-104deg);
-    animation: hg-idle-sway 2.6s ease-in-out infinite;
+  .ba-slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 3px; height: 300px;
+    background: #C9A86C;
+    cursor: ew-resize;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
   }
-  @keyframes hg-idle-sway{
-    0%,100%{ transform: translateX(-50%) rotate(-104deg); }
-    50%{ transform: translateX(-50%) rotate(-97deg); }
+  .ba-slider-button {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: #C9A86C;
+    color: #111;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    transition: transform 0.1s;
   }
-  .hg-speed .hg-needle{
-    transform: translateX(-50%) rotate(-130deg);
-  }
-  .hg-hub{
-    position:absolute; left:50%; top:50%;
-    width:13px; height:13px; border-radius:50%;
-    transform:translate(-50%,-50%);
-    background: radial-gradient(circle at 35% 30%, #e2e4e7, #6a6d73 75%);
-    box-shadow: 0 0 8px rgba(0,0,0,.6);
-  }
-  .hg-readout{
-    position:absolute; left:50%; bottom:29%;
-    transform:translateX(-50%);
-    text-align:center;
-    pointer-events:none;
-  }
-  .hg-readout .hg-val{
-    font-family:'Orbitron', sans-serif;
-    font-size:1.15rem;
-    color:#fff;
-    letter-spacing:.04em;
-  }
-  .hg-readout .hg-unit{
-    display:block;
-    font-size:.5rem;
-    letter-spacing:.2em;
-    color: var(--smoke);
-    margin-top:2px;
-  }
+  .ba-slider-button svg { width: 20px; height: 20px; }
   @media (max-width: 640px){
-    .hg-gauge{ width:132px; height:132px; }
-    .hg-numbers text{ font-size:8px; }
-    .hg-readout .hg-val{ font-size:.85rem; }
-    .hg-cluster{ gap:14px; }
+    .ba-slider-container { width: 300px; height: 180px; }
   }
 
-  /* ============ Neumorphic instrument panel (marca + los dos tacómetros juntos) ============ */
+  /* ============ Neumorphic instrument panel ============ */
   .instrument-panel{
     position:relative;
     display:flex;
+    flex-direction: column;
     align-items:center;
-    gap: 24px;
-    padding: 20px 26px;
+    gap: 20px;
+    padding: 24px;
     border-radius: 26px;
     background: linear-gradient(160deg, #1c1d21, #101113);
     box-shadow:
@@ -452,15 +434,15 @@ tailwind.config = {
       inset 0 1px 0 rgba(255,255,255,.04);
   }
   .panel-logo{
-    height: 64px;
+    height: 48px;
     width: auto;
     flex-shrink: 0;
     display: block;
     filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
   }
   @media (max-width: 640px){
-    .instrument-panel{ padding: 14px 16px; gap: 14px; border-radius: 20px; flex-wrap: wrap; justify-content: center; }
-    .panel-logo{ height: 40px; }
+    .instrument-panel{ padding: 16px; gap: 16px; border-radius: 20px; flex-wrap: wrap; justify-content: center; }
+    .panel-logo{ height: 36px; }
   }
 
   /* ============ CHAT WIDGET (conversación simulada) — bloque nuevo, no toca lo existente ============ */
@@ -882,48 +864,25 @@ tailwind.config = {
 
       <div class="instrument-panel reveal delay-400 mx-auto lg:mx-0">
           <img class="panel-logo" src="./assets/logo_sin fondo.png" alt="Polarizado Reducción Solar">
-        <div class="hg-cluster">
-
-        <div class="hg-gauge hg-speed">
-          <div class="hg-ticks"></div>
-          <svg class="hg-numbers" viewBox="0 0 200 200">
-            <text x="47.9" y="143.7">0</text>
-            <text x="32.5" y="91.4">40</text>
-            <text x="60.6" y="44.6">80</text>
-            <text x="113.9" y="33.4">120</text>
-            <text x="158.3" y="65.1">160</text>
-            <text x="165.2" y="119.2">200</text>
-            <text x="152.1" y="143.7">220</text>
-          </svg>
-          <div class="hg-needle"></div>
-          <div class="hg-hub"></div>
-          <div class="hg-readout">
-            <span class="hg-unit odometer">KM/H</span>
+        <!-- Before/After Slider -->
+        <div class="ba-slider-container">
+          <!-- Before Image (No Tint) -->
+          <div class="ba-slider-img ba-before">
+            <img src="./assets/car_view.png" alt="Sin Polarizar">
+            <div class="ba-label ba-label-before">SIN POLARIZAR</div>
+          </div>
+          <!-- After Image (Tinted) -->
+          <div class="ba-slider-img ba-after">
+            <img src="./assets/car_view.png" alt="Con Polarizado Premium">
+            <div class="ba-tint-overlay"></div>
+            <div class="ba-label ba-label-after">POLARIZADO NANO-CERÁMICO</div>
+          </div>
+          <!-- Slider Handle -->
+          <input type="range" min="0" max="100" value="50" class="ba-slider" name="slider" id="baSlider" aria-label="Deslizar para comparar">
+          <div class="ba-slider-button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 9l-4 3 4 3m8-6l4 3-4 3"/></svg>
           </div>
         </div>
-
-        <div class="hg-gauge hg-rpm">
-          <div class="hg-ticks"></div>
-          <div class="hg-redline"></div>
-          <svg class="hg-numbers" viewBox="0 0 200 200">
-            <text x="47.9" y="143.7">0</text>
-            <text x="32.6" y="108.9">1</text>
-            <text x="38.4" y="71.3">2</text>
-            <text x="63.5" y="42.6">3</text>
-            <text x="100.0" y="32.0">4</text>
-            <text x="136.5" y="42.6">5</text>
-            <text x="161.6" y="71.3">6</text>
-            <text x="167.4" y="108.9">7</text>
-            <text x="152.1" y="143.7">8</text>
-          </svg>
-          <div class="hg-needle"></div>
-          <div class="hg-hub"></div>
-          <div class="hg-readout">
-            <span class="hg-unit odometer">RPM ×1000</span>
-          </div>
-        </div>
-
-      </div>
       </div>
     </div>
   </section>
@@ -1287,6 +1246,18 @@ tailwind.config = {
         teaser.addEventListener('click', openChat);
       }
     })();
+
+    /* Before/After Slider Interaction */
+    const baSlider = document.getElementById('baSlider');
+    const baAfter = document.querySelector('.ba-after');
+    const baSliderBtn = document.querySelector('.ba-slider-button');
+    if(baSlider && baAfter) {
+      baSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        baAfter.style.width = `${val}%`;
+        baSliderBtn.style.left = `${val}%`;
+      });
+    }
   </script>
 
 </body>
