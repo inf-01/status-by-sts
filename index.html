@@ -333,89 +333,105 @@ tailwind.config = {
 
   .odometer{ font-family:'Orbitron', sans-serif; }
 
-  /* ============ BEFORE/AFTER SLIDER (reemplaza el cluster) ============ */
-  .ba-slider-container {
+  /* ============ GLASSMORPHISM CAR SHOWCASE ============ */
+  .glass-card-container {
     position: relative;
-    width: 440px;
-    height: 260px;
-    border-radius: 16px;
+    width: 480px;
+    height: 280px;
+    border-radius: 24px;
+    background: rgba(20, 21, 24, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(201, 168, 108, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    box-shadow: 0 12px 30px rgba(0,0,0,.6), 0 0 20px rgba(201,168,108,.1);
-    border: 1px solid rgba(255,255,255,0.06);
   }
-  .ba-slider-img {
+  .glass-card-bg {
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    overflow: hidden;
-  }
-  .ba-slider-img img {
-    width: 100%; height: 100%; object-fit: cover;
-    object-position: center;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(201,168,108,0.2) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     pointer-events: none;
   }
-  .ba-after {
-    width: 50%;
-  }
-  .ba-tint-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 10, 15, 0.7);
-    backdrop-filter: blur(2px) contrast(1.1);
+  .glass-car-img {
+    position: relative;
+    width: 115%;
+    height: auto;
+    z-index: 2;
+    transform: translateY(15px);
     pointer-events: none;
   }
-  .ba-label {
+  /* Hotspots */
+  .hotspot {
     position: absolute;
-    bottom: 12px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    background: rgba(0,0,0,0.65);
-    color: #fff;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    backdrop-filter: blur(4px);
-    pointer-events: none;
-    white-space: nowrap;
+    width: 30px;
+    height: 30px;
+    z-index: 10;
+    cursor: pointer;
   }
-  .ba-label-before { right: 12px; }
-  .ba-label-after { left: 12px; color: #C9A86C; border: 1px solid rgba(201,168,108,.4); }
-  
-  .ba-slider {
-    position: absolute;
-    appearance: none;
-    -webkit-appearance: none;
-    width: 100%; height: 100%;
-    background: transparent;
-    outline: none;
-    margin: 0;
-    cursor: ew-resize;
-    z-index: 20;
-  }
-  .ba-slider::-webkit-slider-thumb {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 3px; height: 300px;
-    background: #C9A86C;
-    cursor: ew-resize;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  }
-  .ba-slider-button {
+  .hotspot-dot {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 34px; height: 34px;
+    width: 12px; height: 12px;
     border-radius: 50%;
     background: #C9A86C;
-    color: #111;
-    display: flex; align-items: center; justify-content: center;
-    pointer-events: none;
-    z-index: 10;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-    transition: transform 0.1s;
+    box-shadow: 0 0 12px #C9A86C;
+    transition: transform 0.2s;
   }
-  .ba-slider-button svg { width: 20px; height: 20px; }
+  .hotspot:hover .hotspot-dot {
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  .hotspot-pulse {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: rgba(201,168,108,0.5);
+    animation: hotspotPulse 2s infinite;
+  }
+  @keyframes hotspotPulse {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+  }
+  .hotspot-tooltip {
+    position: absolute;
+    bottom: 35px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(15, 16, 20, 0.95);
+    border: 1px solid rgba(201,168,108,0.4);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  }
+  .hotspot:hover .hotspot-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  
+  /* Positions for Hotspots */
+  .hs-window { top: 35%; left: 50%; }
+  .hs-wheel { bottom: 20%; left: 78%; }
+  .hs-door { top: 55%; left: 35%; }
+  
   @media (max-width: 640px){
-    .ba-slider-container { width: 300px; height: 180px; }
+    .glass-card-container { width: 320px; height: 190px; }
+    .hotspot-tooltip { font-size: 0.65rem; padding: 6px 10px; }
   }
 
   /* ============ Neumorphic instrument panel ============ */
@@ -864,23 +880,30 @@ tailwind.config = {
 
       <div class="instrument-panel reveal delay-400 mx-auto lg:mx-0">
           <img class="panel-logo" src="./assets/logo_sin fondo.png" alt="Polarizado Reducción Solar">
-        <!-- Before/After Slider -->
-        <div class="ba-slider-container">
-          <!-- Before Image (No Tint) -->
-          <div class="ba-slider-img ba-before">
-            <img src="./assets/car_view.png" alt="Sin Polarizar">
-            <div class="ba-label ba-label-before">SIN POLARIZAR</div>
+        <!-- Glassmorphism Premium Card -->
+        <div class="glass-card-container">
+          <div class="glass-card-bg"></div>
+          <img src="./assets/car_silhouette.png" alt="Auto Alta Gama" class="glass-car-img">
+          
+          <!-- Hotspot 1: Window Tint -->
+          <div class="hotspot hs-window">
+            <div class="hotspot-pulse"></div>
+            <div class="hotspot-dot"></div>
+            <div class="hotspot-tooltip">Polarizado Premium</div>
           </div>
-          <!-- After Image (Tinted) -->
-          <div class="ba-slider-img ba-after">
-            <img src="./assets/car_view.png" alt="Con Polarizado Premium">
-            <div class="ba-tint-overlay"></div>
-            <div class="ba-label ba-label-after">POLARIZADO NANO-CERÁMICO</div>
+          
+          <!-- Hotspot 2: Audio/Interior -->
+          <div class="hotspot hs-door">
+            <div class="hotspot-pulse"></div>
+            <div class="hotspot-dot"></div>
+            <div class="hotspot-tooltip">Audio de Alta Fidelidad</div>
           </div>
-          <!-- Slider Handle -->
-          <input type="range" min="0" max="100" value="50" class="ba-slider" name="slider" id="baSlider" aria-label="Deslizar para comparar">
-          <div class="ba-slider-button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 9l-4 3 4 3m8-6l4 3-4 3"/></svg>
+          
+          <!-- Hotspot 3: Lighting/Rims -->
+          <div class="hotspot hs-wheel">
+            <div class="hotspot-pulse"></div>
+            <div class="hotspot-dot"></div>
+            <div class="hotspot-tooltip">Iluminación LED</div>
           </div>
         </div>
       </div>
@@ -1246,18 +1269,6 @@ tailwind.config = {
         teaser.addEventListener('click', openChat);
       }
     })();
-
-    /* Before/After Slider Interaction */
-    const baSlider = document.getElementById('baSlider');
-    const baAfter = document.querySelector('.ba-after');
-    const baSliderBtn = document.querySelector('.ba-slider-button');
-    if(baSlider && baAfter) {
-      baSlider.addEventListener('input', (e) => {
-        const val = e.target.value;
-        baAfter.style.width = `${val}%`;
-        baSliderBtn.style.left = `${val}%`;
-      });
-    }
   </script>
 
 </body>
